@@ -1,0 +1,18 @@
+#executar = python meu_script.py
+
+# Obtém as coordenadas atuais do mouse
+posX, posY = pa.position()
+# Exibe as coordenadas na tela
+print(f'Coordenadas do mouse: X={posX}, Y={posY}')
+
+pyautogui.moveTo(x, y, duration): Move o cursor do mouse para as coordenadas especificadas (x, y) na tela. O parâmetro duration especifica a duração da animação de movimento do cursor.
+
+pyautogui.click(x, y, button='left', clicks=1, interval=0.0, duration=0.0): Simula um clique do mouse nas coordenadas (x, y). Os parâmetros opcionais permitem especificar o botão do mouse (button), o número de cliques (clicks), o intervalo entre cliques (interval) e a duração do clique (duration).
+
+pyautogui.typewrite(message, interval=0.0): Simula a digitação do texto especificado pela string message. O parâmetro interval especifica o intervalo entre a digitação de cada caractere.
+
+pyautogui.press(key): Simula uma tecla pressionada do teclado. Pode ser usado para pressionar teclas individuais.
+
+pyautogui.hotkey(*args): Simula uma combinação de teclas de atalho. Os argumentos são strings que representam as teclas a serem pressionadas em sequência.
+
+pyautogui.scroll(amount_to_scroll, x=None, y=None): Simula a rolagem da tela. O parâmetro amount_to_scroll especifica a quantidade de rolagem e os parâmetros opcionais x e y especificam as coordenadas onde a rolagem deve ocorrer.
