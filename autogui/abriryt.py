@@ -1,28 +1,22 @@
+import keyboard as k
 import pyautogui as pa
 import time as t
 
-
 pa.press('win')
-t.sleep(1)
+t.sleep(.1)
 pa.typewrite('cmd')
-t.sleep(1)
+t.sleep(.1)
+pa.press('enter')
+t.sleep(.4)
+pa.typewrite('start https://www.youtube.com/')
+t.sleep(.1)
 pa.press('enter')
 t.sleep(1)
-pa.hotkey('win','right')
-t.sleep(1)
-pa.press('enter')
-t.sleep(1)
-pa.hotkey('alt','tab')
-t.sleep(1)
-pa.typewrite('start https://acesse.dev/OVGn7')
-t.sleep(1)
-pa.press('enter')
-t.sleep(1)
-pa.hotkey('win','left')
-t.sleep(1)
-pa.click(1048, 238, button='left', clicks=1, interval=0.0, duration=0.0)
-t.sleep(1)
-for a in range(1000):
-    pa.moveTo(1,1)
-    pa.press('space')
-
+k.block_key('f4')
+t.sleep(.1)
+k.block_key('win')
+t.sleep(.1) 
+k.block_key('ctrl')
+t.sleep(.1)
+pa.moveTo(0,500,10)
+t.sleep(.1)
