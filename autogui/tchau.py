@@ -37,5 +37,11 @@ pa.press('enter')
 
 t.sleep(1)
 
-os.system('shutdown /s /t 1')
+pa.hotkey('win','d')
+t.sleep(.1)
+pa.click('1,1')
+t.sleep(.1)
+pa.hotkey('alt','f4')
+t.sleep(.1)
+pa.press('enter')
 
