@@ -1,5 +1,5 @@
 import random
-import curses #pip install curses 
+import curses #pip install windows-curses 
 
 s = curses.initscr()
 curses.curs_set(0)
