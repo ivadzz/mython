@@ -21,7 +21,7 @@ def main():
                 t.sleep(1)
                 pa.hotkey('win','d')
                 t.sleep(.1)
-                pa.click('1,1',button='left', clicks=1, interval=0.0, duration=0.0)
+                pa.click(1,1,button='left', clicks=1, interval=0.0, duration=0.0)
                 t.sleep(.1)
                 pa.hotkey('alt','f4')
                 t.sleep(.1)
