@@ -44,4 +44,6 @@ t.sleep(.1)
 pa.hotkey('alt','f4')
 t.sleep(.1)
 pa.press('enter')
+t.sleep(.3)
+pa.press('enter')
 
