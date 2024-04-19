@@ -14,8 +14,6 @@ k.block_key('alt')
 t.sleep(.1)
 k.block_key('tab')
 t.sleep(.1)
-k.block_key('enter')
-t.sleep(.1)
 pa.moveTo(0,700,500)
 
 
