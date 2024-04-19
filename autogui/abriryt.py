@@ -1,6 +1,7 @@
 import keyboard as k
 import pyautogui as pa
 import time as t
+pa.FAILSAFE = False
 
 pa.press('win')
 t.sleep(.1)
