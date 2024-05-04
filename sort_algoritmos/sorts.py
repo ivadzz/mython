@@ -29,3 +29,35 @@ def bubble_sort(arr):
     return arr_copy  # Retorna a lista ordenada
 
 
+def bead_sort(arr):
+    # Remove elementos negativos ou zero
+    arr = [x for x in arr if x > 0]
+
+    # Encontrar o valor máximo para saber o número de linhas na matriz
+    max_val = max(arr)
+
+    # Criar uma matriz de tamanho (máximo valor) x (tamanho do array)
+    beads = [[0] * len(arr) for _ in range(max_val)]
+
+    # Colocar as contas na matriz (uma coluna por elemento)
+    for i, value in enumerate(arr):
+        # Preencher a matriz com contas (1s) com base no valor
+        for j in range(value):
+            beads[j][i] = 1
+
+    # Fazer as contas "cair" por gravidade
+    for row in beads:
+        # Contar quantas contas em cada linha
+        count = sum(row)
+        # "Empurrar" as contas para o final (deixar cair)
+        row[:count] = [1] * count
+        row[count:] = [0] * (len(arr) - count)
+
+    # Construir a lista ordenada a partir da matriz
+    sorted_arr = []
+    # Percorrer as colunas e contar as contas
+    for col in range(len(arr)):
+        value = sum(row[col] for row in beads)  # Quantas contas na coluna
+        sorted_arr.append(value)
+
+    return sorted_arr  # Retorna a lista ordenada
