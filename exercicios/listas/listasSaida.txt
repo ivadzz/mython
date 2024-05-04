@@ -1,0 +1,4 @@
+Palavras existentes     = {'açucar', 'leite', 'ovo', 'bife', 'fogão', 'farinha', 'panela', 'carne', 'manteiga', 'casa', 'comida', 'arroz', 'pão'}
+Repetições              = {'casa': 4, 'farinha': 1, 'panela': 2, 'comida': 4, 'arroz': 2, 'leite': 5, 'pão': 2, 'manteiga': 2, 'ovo': 2, 'fogão': 2, 'açucar': 1, 'carne': 1, 'bife': 1}
+Unicos                  = ['açucar', 'bife', 'carne', 'farinha']
+Tem na 5ª mas não na 1ª = ['fogão', 'ovo', 'pão']

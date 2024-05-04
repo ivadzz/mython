@@ -4,7 +4,7 @@ listona = []
 unicos  = []
 pal_exi = []
 dic     = {}
-with open("listas.txt", "r") as f:
+with open("listas.txt", "r",encoding="utf-8") as f:
   n1 = int(f.readline())
   for i in range(n1):
     l = f.readline().split()
@@ -34,7 +34,7 @@ for j in range(len(listas[4])):
   j+=1
 print('Tem na 5ª mas não na 1ª = {}'.format(lista5))
 
-with open("listasSaida.txt","w") as f:
+with open("listasSaida.txt","w", encoding="utf-8") as f:
   f.write('Palavras existentes     = {}\n'.format(pal_exi))
   f.write('Repetições              = {}\n'.format(dic))
   f.write("Unicos                  = {}\n".format(unicos))
