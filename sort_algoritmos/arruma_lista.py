@@ -4,10 +4,12 @@ from sorts import bubble_sort as bb
 # Lista de entrada para ordenação
 
 with open("lista_n_ord.txt","r") as f:
-   linha = f.readline().strip()  # Ler a linha e remover espaços extras
+   linha = f.readline().strip()# Ler a linha e remover espaços extras
 
 lista = [int(x) for x in linha.split()]  # Dividir e converter para inteiros
-lista_ordenada = csort(lista)
+
+
+lista_ordenada = bb(lista)
 
 print("LINHA: {}".format(linha))
 print('\n\n')

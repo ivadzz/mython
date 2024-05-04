@@ -20,19 +20,12 @@ def counting_sort(arr):
 
 
 def bubble_sort(arr):
-    n = len(arr)  # Número de elementos na lista
-    # Passar pelo array n-1 vezes
+    arr_copy = arr.copy()  # Criar uma cópia da lista original
+    n = len(arr_copy)
     for i in range(n - 1):
-        # `swapped` para verificar se houve troca nesta passagem
-        swapped = False
-        # Percorrer o array até a posição que não precisa mais ser verificada
         for j in range(0, n - 1 - i):
-            if arr[j] > arr[j + 1]:
-                # Se elementos adjacentes estão fora de ordem, trocá-los
-                arr[j], arr[j + 1] = arr[j + 1], arr[j]
-                swapped = True  # Indicar que houve uma troca
-        # Se nenhuma troca ocorreu nesta passagem, a lista está ordenada
-        if not swapped:
-            break  # Pode sair do loop
-    return arr  # Retorna a lista ordenada
+            if arr_copy[j] > arr_copy[j + 1]:
+                arr_copy[j], arr_copy[j + 1] = arr_copy[j + 1], arr_copy[j]  # Troca
+    return arr_copy  # Retorna a lista ordenada
+
 

@@ -1,6 +1,6 @@
 import random as r
 lista = []
-for i in range(300):
+for i in range(100):
     n = r.randint(0,1000)
     lista.append(n)
 print(len(lista))
