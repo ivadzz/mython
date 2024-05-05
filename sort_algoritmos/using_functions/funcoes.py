@@ -4,7 +4,7 @@ def CRIA():
     for i in range(100):
         n = r.randint(0,100)
         lista.append(n)
-    print(len(lista))
+    print('{}\n'.format(len(lista)))
     with open("info_lista.txt","w") as f:
         for i in range(len(lista)):
             f.write("{} ".format(lista[i]))
@@ -29,10 +29,10 @@ def ARRUMA():
    lista_ordenada = csort(lista)
 
    print("LINHA: {}".format(linha))
-   print('\n\n')
+   print('\n')
    print("LISTA: {}".format(lista))
-   print('\n\n')
-   print("LISTA ORDENADA: {}".format(lista_ordenada))  # Espera-se uma lista ordenada
+   print('\n')
+   print("LISTA ORDENADA: {}\n".format(lista_ordenada))  # Espera-se uma lista ordenada
 
    with open("info_lista.txt","w") as f:
       f.write(" ".join(map(str, lista_ordenada)))
@@ -58,7 +58,7 @@ def DETALHES():
     else:
       dic[palavra] = 1
   pal_exi = set(listona)
-  print('Palavras existentes     = {}'.format(pal_exi))
+  print('Palavras existentes     = {}\n'.format(pal_exi))
 
   for palavra, contagem in dic.items():
     if contagem == 1:
