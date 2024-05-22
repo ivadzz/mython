@@ -1,25 +1,24 @@
-def cria_sim(n):
-    mat = [[0]*n for _ in range(n)]
-    for i in range(n):
-        for j in range(i, n):
-            mat[i][j] = mat[j][i] = n - 1 - i if i!= j else 0
-    return mat
+import numpy as np
 
-n = int(input("Informe o numero: "))
-matriz_sim = cria_sim(n)
+tamanho_matriz = int(input("Informe o valor da matriz: "))
 
-for matriz in matriz_sim:
-    print(matriz)
+matriz_simetrica = np.zeros((tamanho_matriz, tamanho_matriz), dtype=int)
+for indice_linha in range(tamanho_matriz):
+    for indice_coluna in range(tamanho_matriz):
+        matriz_simetrica[indice_linha, indice_coluna] = (indice_linha - indice_coluna) ** 2
 
-multiplos = []
-for matriz in matriz_sim:
-    for elem in matriz:
-        if elem % 4 == 0:
-            multiplos.append(elem)
+multiplos_4 = np.unique(matriz_simetrica[matriz_simetrica % 4 == 0])
+multiplos_4 = np.sort(multiplos_4)
 
-print('A matriz tem {} multiplos de 4, que sao: {}'.format(len(multiplos),multiplos))
+somas_linhas = np.sum(matriz_simetrica, axis=1)
+indice_menor_soma = np.argmin(somas_linhas)
+menor_soma = somas_linhas[indice_menor_soma]
 
-min_matriz = min(matriz_sim, key=sum)
-min_matriz_sum = sum(min_matriz)
-print(f"A linha com menor soma é a {matriz_sim.index(min_matriz) + 1} cuja soma é : {min_matriz_sum} ")
+maiores_valores_colunas = np.max(matriz_simetrica, axis=0)
 
+with open('/content/matrizSaida.txt', 'w') as arquivo_saida:
+    arquivo_saida.write("Matriz:\n")
+    arquivo_saida.write(str(matriz_simetrica) + "\n\n")
+    arquivo_saida.write(f"A matriz tem {len(multiplos_4)} múltiplos de 4 que são: {multiplos_4.tolist()}\n")
+    arquivo_saida.write(f"A linha com menor soma é a {indice_menor_soma} cuja soma é {menor_soma}\n")
+    arquivo_saida.write(f"Os maiores valores de cada coluna são: {maiores_valores_colunas.tolist()}\n")

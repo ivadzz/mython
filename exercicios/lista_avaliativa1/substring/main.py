@@ -1,22 +1,32 @@
-def get_substrings(s):
-    """Retorna todas as substrings de uma string"""
-    substrings = set()
-    length = len(s)
-    for i in range(length):
-        for j in range(i + 1, length + 1):
-            substrings.add(s[i:j])
-    return substrings
+with open('/content/substring.txt', 'r') as f:
+    linha = f.readlines()
 
-def common_substrings_count(s1, s2):
-    """Conta o número de substrings comuns entre duas strings"""
-    substrings1 = get_substrings(s1)
-    substrings2 = get_substrings(s2)
-    common_substrings = substrings1.intersection(substrings2)
-    return len(common_substrings)
+casos = int(linha[0].strip())
 
-# Exemplo de uso
-string1 = "abc"
-string2 = "bca"
+resultado = []
 
-count = common_substrings_count(string1, string2)
-print(f"Número de substrings comuns: {count}")
+for i in range(1, 2 * casos, 2):
+    str1 = linha[i].strip()
+    str2 = linha[i + 1].strip()
+
+    len1 = len(str1)
+    len2 = len(str2)
+    dpjmatrix = [[0] * (len2 + 1) for j in range(len1 + 1)]
+    maxjlength = 0
+
+    for x in range(len1 + 1):
+        for y in range(len2 + 1):
+            if x == 0 or y == 0:
+                dpjmatrix[x][y] = 0
+            elif str1[x-1] == str2[y-1]:
+                dpjmatrix[x][y] = dpjmatrix[x-1][y-1] + 1
+                if dpjmatrix[x][y] > maxjlength:
+                    maxjlength = dpjmatrix[x][y]
+            else:
+                dpjmatrix[x][y] = 0
+
+    resultado.append(str(maxjlength))
+
+with open('/content/saidaSubstring.txt', 'w') as f:
+    for result in resultado:
+        f.write(f"{result}\n")
