@@ -14,13 +14,6 @@ for ano in range(2014, 2020):
     for mes in range(1, 13):
         meses_anos.append(f"{mes:02d}-{ano}")
 
-def introduzir_dados_faltantes(data, porcentagem=0.1):
-    dados_faltantes = data.copy().astype(float)  
-    num_dados_faltantes = int(porcentagem * data.size)
-    indices_faltantes = np.random.choice(data.size, num_dados_faltantes, replace=False)
-    dados_faltantes.ravel()[indices_faltantes] = np.nan
-    return dados_faltantes
-
 data = {
     "ID": [],
     "Estado": [],
@@ -39,11 +32,6 @@ for mes_ano in meses_anos:
         casos = np.random.randint(0, 5000)
         obitos = np.random.randint(0, 100)
         hospitalizacoes = np.random.randint(0, 500)
-        
-        casos = introduzir_dados_faltantes(np.array([casos]))[0]
-        obitos = introduzir_dados_faltantes(np.array([obitos]))[0]
-        hospitalizacoes = introduzir_dados_faltantes(np.array([hospitalizacoes]))[0]
-        
         data["Casos"].append(casos)
         data["Óbitos"].append(obitos)
         data["Hospitalizações"].append(hospitalizacoes)
