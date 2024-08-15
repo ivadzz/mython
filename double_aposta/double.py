@@ -53,7 +53,10 @@ try:
             else:
                 n_sorteado = r.randint(0,20)
                 print('Sorteando...')
-                t.sleep(1)
+                for j in range(30):
+                    nsorteio = r.randint(0,20)
+                    print('{}'.format(nsorteio).ljust(2), end='\r', flush=True)
+                    t.sleep(.1)
                 print('O numero sorteado foi: ', end='' )
                 print('{}'.format(n_sorteado))
                 if n_sorteado == 0:
