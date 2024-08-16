@@ -8,6 +8,7 @@ from cripto import criptosenha
 from cripto import uncriptosenha
 import sys
 import msvcrt
+from colorama import Fore, Back, Style, init
 
 
 def custom_getpass(prompt="Senha:", char_mask='•'):
@@ -28,6 +29,7 @@ def custom_getpass(prompt="Senha:", char_mask='•'):
         sys.stdout.flush()
     return senha
 
+
 def apresentar_jogos():
     print("=" * 50)
     print("|" + " " * 16 + "SELEÇÃO DE JOGOS" + " " * 16 + "|")
@@ -39,6 +41,7 @@ def apresentar_jogos():
     print("|" + " " * 48 + "|")
     print("=" * 50)
     print("\n")
+
 
 def lt():
     os.system('cls')
@@ -60,7 +63,7 @@ finally:
     lt()
 
     continuar  = 1
-
+    init()
     print('BEM VINDO'.center(80,'-'))
     
     while continuar == 1:
@@ -120,39 +123,155 @@ finally:
                                         lt()
                                         continuarjogo = 1                                       
                                         while continuarjogo == 1:
+                                            print('{}, seu saldo é de R${:.2f}'.format(login,saldo))
                                             apresentar_jogos()
                                             
                                             try:
-                                                opcaojogos=int(input('QUAL JOGO GOSTARIA DE JOGAR: '))
+                                                opcaojogos=int(input('QUAL JOGO GOSTARIA DE JOGAR:'))
+
                                                 if opcaojogos == 0:
                                                     lt()
                                                     continuarjogo = 0
                                                 
+                                           
                                                 elif opcaojogos == 1:
                                                     lt()
-                                                    print('Seu saldo é de R${:.2f}'.format(saldo))
-                                                
+                                                    print('{}, seu saldo é de R${:.2f}\nJOGO SELECIONADO: ROLETA\n'.format(login,saldo))
+                                                    try:
+                                                        valor_aposta = float(input('Quanto deseja apostar:'))
+                                                        if valor_aposta > saldo:
+                                                            lt()
+                                                            print('SALDO INSUFICIENTE!\nDEPOSITE MAIS!')
+                                                            input('PRESSIONE ENTER PARA CONTINUAR...')
+                                                            lt()
+                                                            continuarjogo = 0
+
+                                                        elif valor_aposta < 1:
+                                                            lt()
+                                                            print('O VALOR MÍNIMO PARA APOSTAR É DE R$1,00.')
+                                                            input('PRESSIONE ENTER PARA CONTINUAR...')
+                                                            lt()
+
+                                                        else:
+                                                            lt()
+                                                            print('NÚMEROS DA ROLETA 0->20')
+                                                            print(Fore.GREEN+'1-VERDE(0) = x14\n'+Fore.BLACK+'2-PRETO(PARES) = x2\n'+Fore.RED+'3-VERMELHO(ÍMPARES) = x2'+Fore.WHITE)
+                                                            try:
+                                                                cor_aposta = int(input('Qual cor deseja apostar R${:.2f}?\n'.format(valor_aposta)))
+                                                                if cor_aposta not in [1,2,3]:
+                                                                    lt()
+                                                                    print('OPÇÃO INVÁLIDA!')
+                                                                else:
+                                                                    lt()
+                                                                    n_sorteado = r.randint(0,20)
+
+
+                                                                    print('COR SELECIONADA: ',end='')
+                                                                    if cor_aposta == 1:
+                                                                        print(Fore.GREEN+'VERDE'+Fore.WHITE)
+                                                                    elif cor_aposta == 2:
+                                                                        print(Fore.BLACK+'PRETO'+Fore.WHITE)
+                                                                    else:
+                                                                        print(Fore.RED+'VERMELHO'+Fore.WHITE)
+
+
+                                                                    print('Sorteando...')
+                                                                    for j in range(30):
+                                                                        nsorteio = r.randint(0,20)
+                                                                        print('{}'.format(nsorteio).ljust(2), end='\r', flush=True)
+                                                                        t.sleep(.1)
+
+                                                                    if n_sorteado == 0:
+                                                                        resposta = 1
+                                                                    elif n_sorteado % 2 == 0:
+                                                                        resposta = 2
+                                                                    else:
+                                                                        resposta = 3
+
+                                                                    print('O numero sorteado foi: ',end='' )
+                                                                    if resposta == 1:
+                                                                        print(Fore.GREEN+'{}'.format(n_sorteado)+Fore.WHITE)
+                                                                    elif resposta == 2:
+                                                                        print(Fore.BLACK+'{}'.format(n_sorteado)+Fore.WHITE)
+                                                                    else:
+                                                                        print(Fore.RED+'{}'.format(n_sorteado)+Fore.WHITE)
+
+
+                                                                    if cor_aposta == resposta:
+                                                                        print("Você ganhou!")
+                                                                        t.sleep(1)
+                                                                        if resposta == 1:
+                                                                            saldo-=valor_aposta
+                                                                            saldo += (valor_aposta * 14)
+                                                                            print('Você ganhou R${:.2f}'.format(valor_aposta*14))
+                                                                            print('Seu novo saldo é R${:.2f}'.format(saldo))
+                                                                            with open("saldo_{}.txt".format(login),"w") as f:
+                                                                                f.write(str('{:.2f}'.format(saldo)))
+                                                                            print('PRESSIONE QUALQUER TECLA PARA CONTINUAR')
+                                                                            input()
+                                                                            lt()
+                                                                            
+                                                                        elif resposta == 2:
+                                                                            saldo += valor_aposta 
+                                                                            print('Você ganhou R${:.2f}'.format(valor_aposta*2))
+                                                                            print('Seu novo saldo é R${:.2f}'.format(saldo))
+                                                                            with open("saldo_{}.txt".format(login),"w") as f:
+                                                                                f.write(str('{:.2f}'.format(saldo)))
+                                                                                print('PRESSIONE QUALQUER TECLA PARA CONTINUAR')
+                                                                            input()
+                                                                            lt()
+                                                                            
+                                                                        else:
+                                                                            saldo += valor_aposta 
+                                                                            print('Você ganhou R${:.2f}'.format(valor_aposta*2))
+                                                                            print('Seu novo saldo é R${:.2f}'.format(saldo))
+                                                                            with open("saldo_{}.txt".format(login),"w") as f:
+                                                                                f.write(str('{:.2f}'.format(saldo)))
+                                                                            print('PRESSIONE QUALQUER TECLA PARA CONTINUAR')
+                                                                            input()
+                                                                            lt()
+                                                                            
+
+                                                                    
+                                                                    else:
+                                                                        saldo -= valor_aposta
+                                                                        t.sleep(1)
+                                                                        print('Você perdeu R${:.2f}'.format(valor_aposta))
+                                                                        print('Seu Saldo é de R${:.2f}'.format(saldo))
+                                                                        with open("saldo_{}.txt".format(login),"w") as f:
+                                                                            f.write(str('{:.0f}'.format(saldo)))
+                                                                        print('PRESSIONE QUALQUER TECLA PARA CONTINUAR')
+                                                                        input()
+                                                                        lt()
+
+
+
+                                                            
+                                                            except ValueError:
+                                                                lt()
+                                                                print('POR FAVOR, DIGITE UM NÚMERO DE 1 A 3!')
+                                                                input('PRESSIONE ENTER PARA CONTINUAR...')
+                                                                lt()
+                                                        
+                                                        
+                                                    except ValueError:
+                                                        lt()
+                                                        print('INFORME O VALOR QUE DESEJA APOSTAR!')
+
+
                                                 elif opcaojogos == 2:
                                                     lt()
                                                     print('caçaaaaaaaa')
+                                                
                                                 
                                                 else:
                                                     lt()
                                                     print('OPÇÃO INVÁLIDA')
                                                 
 
-
-
-
-
-
-
-
-
                                             except ValueError:
                                                 lt()
                                                 print('SELECIONE UM NÚMERO!')
-
 
 
                                     elif sair == 2:
@@ -174,18 +293,17 @@ finally:
                                                     print('SENHA INCORRETA!\n')
                                                 else:
                                                     saldo+=valor_deposito
-                                                    print('DEPÓSITO DE R${:.2f} REALIZADO COM SUCESSO!'.format(valor_deposito))
-                                                    print('Seu novo saldo é R${:.2f}'.format(saldo))
                                                     with open(f"saldo_{login}.txt", "w") as f:
                                                         f.write('{:.2f}'.format(saldo))
+                                                    print('DEPÓSITO DE R${:.2f} REALIZADO COM SUCESSO!'.format(valor_deposito))
+                                                    print('Seu novo saldo é R${:.2f}'.format(saldo))
                                                     input('PRESSIONE ENTER PARA CONTINUAR...')
                                                     lt()
                                         except ValueError:
                                             lt()
-                                            print('Entrada inválida. Por favor, insira um número.')
+                                            print('Entrada inválida. Por favor, insira um valor.')
                                         
-                            
-                                    
+                                                               
                                     elif sair == 3:
                                         lt()
                                         try:                                  
@@ -204,13 +322,13 @@ finally:
                                                 if senha_confirmacao_saque == senha:                                              
                                                     saldo -= valor_saque
                                                     lt()
+                                                    with open(f"saldo_{login}.txt", "w") as f:
+                                                        f.write('{:.2f}'.format(saldo))
                                                     print('SAQUE DE R${:.2f} REALIZADO COM SUCESSO!'.format(valor_saque))
                                                     print('Seu novo saldo é R${:.2f}'.format(saldo))
                                                     input('PRESSIONE ENTER PARA CONTINUAR...')
                                                     lt()
                                                     # Salvar o saldo atualizado no arquivo
-                                                    with open(f"saldo_{login}.txt", "w") as f:
-                                                        f.write('{:.2f}'.format(saldo))
                                                 
                                                 else:
                                                     lt()
@@ -218,7 +336,7 @@ finally:
 
                                         except ValueError:
                                             lt()
-                                            print('Entrada inválida. Por favor, insira um número.')
+                                            print('Entrada inválida. Por favor, insira um valor.')
 
 
                                     elif sair == 4:
