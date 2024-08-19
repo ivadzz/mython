@@ -9,6 +9,9 @@ from cripto import uncriptosenha
 import sys
 import msvcrt
 from colorama import Fore, Back, Style, init
+import datetime
+
+
 
 
 def custom_getpass(prompt="Senha:", char_mask='•'):
@@ -40,7 +43,55 @@ def apresentar_jogos():
     print("|" + " " * 16 + "0 - VOLTAR" + " " * 22 + "|")
     print("|" + " " * 48 + "|")
     print("=" * 50)
-    print("\n")
+    print("")
+
+
+simbolos = [Fore.CYAN+'►'+Fore.WHITE,Fore.BLACK+'♣'+Fore.WHITE,Fore.RED+'♥'+Fore.WHITE,Fore.BLACK+'♠'+Fore.WHITE,Fore.RED+'♦'+Fore.WHITE]
+valor_cassaniquel = 5
+def exibir_interface_caca_niquel():
+    print("="*40)
+    print(" " * 10 + " CAÇA-NÍQUEL ")
+    print("="*40)
+    print("Bem-vindo ao Caça-Níquel!\nÍCONCES: {} {} {} {} {} \nValor: R${},00\nPrêmio: R$ {},00".format(simbolos[0],simbolos[1],simbolos[2],simbolos[3],simbolos[4],valor_cassaniquel,valor_cassaniquel*10))
+    print("SEU SALDO É DE R${:.2f}\nPressione 'Enter' para girar os rolos ou '0' para voltar.".format(saldo))
+    print("="*40)
+    
+
+
+print()
+def exibir_interface_roleta():
+    print("="*40)
+    print(" " * 10 + " ROLETA ")
+    print("="*40)
+    print('Bem-vindo à ROLETA!')
+    print('NÚMEROS:')
+
+    zero_formatado = f'{0:02}'
+
+    # Loop para imprimir a sequência até o número 20
+    for i in range(1, 21):
+        # Formata o número com dois dígitos
+        num_formatado = f'{i:02}'
+
+        if i % 2 == 0:
+            print(Fore.BLACK + f'|{num_formatado}|', end='')
+        else:
+            print(Fore.RED + f'|{num_formatado}|', end='')
+        
+        # Quebra a linha a cada 5 números
+        if i % 5 == 0:
+            print()  # Quebra de linha
+
+    # Imprime o número 00 por último, embaixo do 17
+    print(Fore.GREEN + f'|{zero_formatado}|'.center(20))
+
+    print(Fore.GREEN+'VERDE(0) = x14\n'+Fore.BLACK+'PRETO(PARES) = x2\n'+Fore.RED+'VERMELHO(ÍMPARES) = x2'+Fore.WHITE)
+    print('SEU SALDO É DE R${:.2f}\nDIGITE 0 E CONFIRME PARA VOLTAR'.format(saldo))
+    print("="*40)
+
+
+def girar_rolo():
+    return r.choice(simbolos)
 
 
 def lt():
@@ -71,7 +122,7 @@ finally:
             opcaologin = int(input('1-Login\n2-Cadastrar\n3-FECHAR\n'))
             if opcaologin == 1:
                 lt()
-                login = input('Digite seu login:')
+                login = input('Digite seu login:').lower()
                 uncripto()
                 with open('listasenha.txt','r')as f:
                     listasenha = [line.strip() for line in f.readlines()]
@@ -109,6 +160,9 @@ finally:
                             saldo = float(saldo)
                             print('BEM VINDO, '+login + '!')
                             print('Seu saldo é: R${:.2f}'.format(saldo))
+                            with open ('historico_logins.txt','a')as f:
+                                data_hora_atual = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                                f.write('Login:{}, realizou login em {}\n'.format(login,data_hora_atual))
                             input('PRESSIONE ENTER PARA CONTINUAR...')
                             continuarr = 0
                             lt()
@@ -136,8 +190,9 @@ finally:
                                            
                                                 elif opcaojogos == 1:
                                                     lt()
-                                                    print('{}, seu saldo é de R${:.2f}\nJOGO SELECIONADO: ROLETA\n'.format(login,saldo))
+                                                    exibir_interface_roleta()
                                                     try:
+                                                        minimoaposta = 2
                                                         valor_aposta = float(input('Quanto deseja apostar:'))
                                                         if valor_aposta > saldo:
                                                             lt()
@@ -146,25 +201,32 @@ finally:
                                                             lt()
                                                             continuarjogo = 0
 
-                                                        elif valor_aposta < 1:
+                                                        elif valor_aposta == 0:
                                                             lt()
-                                                            print('O VALOR MÍNIMO PARA APOSTAR É DE R$1,00.')
+
+                                                        elif valor_aposta < minimoaposta:
+                                                            lt()
+                                                            print('O VALOR MÍNIMO PARA APOSTAR É DE R${},00.'.format(minimoaposta))
                                                             input('PRESSIONE ENTER PARA CONTINUAR...')
                                                             lt()
+                                                        
 
                                                         else:
                                                             lt()
                                                             print('NÚMEROS DA ROLETA 0->20')
                                                             print(Fore.GREEN+'1-VERDE(0) = x14\n'+Fore.BLACK+'2-PRETO(PARES) = x2\n'+Fore.RED+'3-VERMELHO(ÍMPARES) = x2'+Fore.WHITE)
                                                             try:
-                                                                cor_aposta = int(input('Qual cor deseja apostar R${:.2f}?\n'.format(valor_aposta)))
-                                                                if cor_aposta not in [1,2,3]:
+                                                                cor_aposta = int(input('\nDIGITE 0 E CONFIRME PARA VOLTAR\nCor que deseja apostar R${:.2f}:\n'.format(valor_aposta)))
+
+                                                                if cor_aposta == 0:
+                                                                    lt()
+
+                                                                elif cor_aposta not in [1,2,3]:
                                                                     lt()
                                                                     print('OPÇÃO INVÁLIDA!')
                                                                 else:
                                                                     lt()
                                                                     n_sorteado = r.randint(0,20)
-
 
                                                                     print('COR SELECIONADA: ',end='')
                                                                     if cor_aposta == 1:
@@ -175,7 +237,7 @@ finally:
                                                                         print(Fore.RED+'VERMELHO'+Fore.WHITE)
 
 
-                                                                    print('Sorteando...')
+                                                                    print('Valor apostado:R${:.2f}\nSorteando...'.format(valor_aposta))
                                                                     for j in range(30):
                                                                         nsorteio = r.randint(0,20)
                                                                         print('{}'.format(nsorteio).ljust(2), end='\r', flush=True)
@@ -261,8 +323,77 @@ finally:
 
                                                 elif opcaojogos == 2:
                                                     lt()
-                                                    print('caçaaaaaaaa')
-                                                
+                                                    
+                                                    exibir_interface_caca_niquel()
+                                                    escolha_caca_niquel = input()
+                                                    lt()
+
+                                                    while escolha_caca_niquel != '0':
+                                                        if saldo < valor_cassaniquel:
+                                                           
+                                                            lt()
+                                                            print('SALDO INSUFICIENTE!\nDEPOSITE MAIS!')
+                                                            input('PRESSIONE ENTER PARA CONTINUAR...')
+                                                            lt()
+                                                            
+                                                            break
+                                                        else:    
+                                                            if escolha_caca_niquel == '':
+                                                                lt()
+                                                                print('GIRANDO ROLOS...')
+
+                                                                for k in range(18):
+                                                                    rolo1 = girar_rolo()
+                                                                    rolo2 = girar_rolo()
+                                                                    rolo3 = girar_rolo()
+                                                                    linhacacaniquel = '-->|{}|{}|{}|'.format(rolo1,rolo2,rolo3)
+                                                                    print(linhacacaniquel, end='\r')
+                                                                    t.sleep(0.1)  # Pequena pausa para simular a rotação
+                                                                for l in range(14):
+                                                                    rolo2 = girar_rolo()
+                                                                    rolo3 = girar_rolo()
+                                                                    linhacacaniquel = '-->|{}|{}|{}|'.format(rolo1,rolo2,rolo3)
+                                                                    print(linhacacaniquel, end='\r')
+                                                                    t.sleep(0.1)  # Pequena pausa para simular a rotação
+                                                                for m in range (11):
+                                                                    rolo3 = girar_rolo()
+                                                                    linhacacaniquel = '-->|{}|{}|{}|'.format(rolo1,rolo2,rolo3)
+                                                                    print(linhacacaniquel, end='\r')
+                                                                    t.sleep(0.1)  # Pequena pausa para simular a rotação
+                                                                                               
+                                                                t.sleep(1.5)
+                                                                lt()
+
+                                                                #print('\n-->|{}|{}|{}|'.format(rolo1,rolo2,rolo3))
+                                                                print('RESULTADO: |{}|{}|{}|'.format(rolo1,rolo2,rolo3))
+
+                                                                if rolo1 == rolo2 == rolo3:
+                                                                    saldo+=(valor_cassaniquel*10)-valor_cassaniquel
+                                                                    with open ('saldo_{}.txt'.format(login),'w') as f:
+                                                                        f.write(str('{:.2f}'.format(saldo)))
+                                                                    print('PARABÉNS!!! VOCÊ GANHOU R${}!!!'.format(valor_cassaniquel*10))
+                                                                    print('SEU SALDO É DE R${:.2f}'.format(saldo))
+                                                                    input('PRESSIONE QUALQUER TECLA PARA CONTINUAR...')
+
+                                                                else:
+                                                                    saldo-= valor_cassaniquel
+                                                                    with open ('saldo_{}.txt'.format(login),'w') as f:
+                                                                        f.write(str('{:.2f}'.format(saldo)))
+                                                                    print('QUE PENA! NÃO FOI DESSA VEZ.\nSEU SALDO É DE R${:.2f}'.format(saldo))
+                                                                    input('PRESSIONE QUALQUER TECLA PARA CONTINUAR...')
+                                                                
+                                                                lt()
+                                                                exibir_interface_caca_niquel()
+                                                                escolha_caca_niquel = input()
+                                                                lt()
+                                                            
+                                                            else:
+                                                                lt()
+                                                                print("Opção inválida! Pressione 'Enter' para jogar ou '0' para voltar.")
+                                                                exibir_interface_caca_niquel()
+                                                                escolha_caca_niquel = input()
+                                                                lt()
+                                                    
                                                 
                                                 else:
                                                     lt()
@@ -282,10 +413,11 @@ finally:
                                         criptosenha()
 
                                         try:
+                                            minimodeposito = 1
                                             valor_deposito = float(input('Quanto deseja depositar?\n'))
-                                            if valor_deposito < 1:
+                                            if valor_deposito < minimodeposito:
                                                 lt()
-                                                print('VALOR MÍNIMO R$1,00. TENTE NOVAMENTE!')
+                                                print('VALOR MÍNIMO R${},00. TENTE NOVAMENTE!'.format(minimodeposito))
                                             else:                                   
                                                 senhaautorizacao = custom_getpass('Senha de autorização:')
                                                 lt()
@@ -293,6 +425,9 @@ finally:
                                                     print('SENHA INCORRETA!\n')
                                                 else:
                                                     saldo+=valor_deposito
+                                                    with open('historico_depositos.txt','a')as f:
+                                                        data_hora_atual = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                                                        f.write('Usuario: {}, Depositou R${:.2f} em {}\n'.format(login,valor_deposito,data_hora_atual))
                                                     with open(f"saldo_{login}.txt", "w") as f:
                                                         f.write('{:.2f}'.format(saldo))
                                                     print('DEPÓSITO DE R${:.2f} REALIZADO COM SUCESSO!'.format(valor_deposito))
@@ -306,21 +441,26 @@ finally:
                                                                
                                     elif sair == 3:
                                         lt()
-                                        try:                                  
+                                        try: 
+                                            minimosaque = 20                                 
                                             valor_saque = float(input('{} R${:.2f}\nQUANTO DESEJA SACAR?\n'.format(login,saldo)))
                                             if valor_saque > saldo:
                                                 lt()
                                                 print('SALDO INSUFICIENTE!')
                                             
-                                            elif valor_saque < 50:
+                                            elif valor_saque < minimosaque:
                                                 lt()
-                                                print('O VALOR DO SAQUE DEVE SER DE NO MÍNIMO R$50,00.')
+                                                print('O VALOR DO SAQUE DEVE SER DE NO MÍNIMO R${},00.'.format(minimosaque))
 
                                             else:
                                                 lt()
+                                                print('VALOR DO SAQUE: R${:.2f}'.format(valor_saque))
                                                 senha_confirmacao_saque = custom_getpass('DIGITE SUA SENHA:')
                                                 if senha_confirmacao_saque == senha:                                              
                                                     saldo -= valor_saque
+                                                    with open('historico_saques.txt','a')as f:
+                                                        data_hora_atual = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                                                        f.write('Usuario: {}, saque de R${:.2f} realizado em {}\n'.format(login,valor_saque,data_hora_atual))
                                                     lt()
                                                     with open(f"saldo_{login}.txt", "w") as f:
                                                         f.write('{:.2f}'.format(saldo))
@@ -374,7 +514,7 @@ finally:
                 cripto()
                 lt()
 
-                login = input('CRIE UM LOGIN:')
+                login = input('CRIE UM LOGIN:').lower().strip()
 
                 uncripto()
                 with open('listasenha.txt','r')as f:

@@ -47,7 +47,7 @@ finally:
     continuar = 0
 
     while continuar == 0:
-        opcao = int(input('1-TROCAR SENHA\n2-RECUPERAR SENHA\n3-EXCLUIR CONTA\n4-LISTAR LOGINS\n5-CONFERIR SALDO\n'))
+        opcao = int(input('1-TROCAR SENHA\n2-RECUPERAR SENHA\n3-EXCLUIR CONTA\n4-LISTAR LOGINS\n5-CONFERIR SALDO\n6-ULTIMO DEPOSITO\n7-ULTIMO SAQUE\n'))
 
         if opcao == 1:
             uncripto() 
@@ -57,7 +57,7 @@ finally:
                 listalogin = [line.strip() for line in f.readlines()]
             cripto()
             lt()          
-            login_para_senha = input('INFORME O LOGIN QUE GOSTARIA DE TROCAR A SENHA:\n')
+            login_para_senha = input('INFORME O LOGIN QUE GOSTARIA DE TROCAR A SENHA:\n').lower()
             uncripto() 
             with open('listasenha.txt','r')as f:
                 listasenha = [line.strip() for line in f.readlines()]
@@ -106,7 +106,7 @@ finally:
                 listalogin = [line.strip() for line in f.readlines()]
             cripto()
             lt()
-            login_para_senha = input('INFORME O LOGIN PARA RECUPERAR A SENHA:\n')
+            login_para_senha = input('INFORME O LOGIN PARA RECUPERAR A SENHA:\n').lower()
             uncripto() 
             with open('listasenha.txt','r')as f:
                 listasenha = [line.strip() for line in f.readlines()]
@@ -129,7 +129,7 @@ finally:
                 listalogin = [line.strip() for line in f.readlines()]
             cripto()
             lt()
-            login_para_remover = input('Digite o login que deseja remover: ')
+            login_para_remover = input('Digite o login que deseja remover: ').lower()
 
             uncripto() 
             with open('listasenha.txt','r')as f:
@@ -199,7 +199,7 @@ finally:
                 listalogin = [line.strip() for line in f.readlines()]
             cripto()
             lt()
-            login_para_checar_saldo = input('GOSTARIA DE CHECAR O SALDO DE QUAL LOGIN:\n')
+            login_para_checar_saldo = input('GOSTARIA DE CHECAR O SALDO DE QUAL LOGIN:\n').lower()
 
             uncripto() 
             with open('listasenha.txt','r')as f:
@@ -222,6 +222,28 @@ finally:
             else:
                 lt()
                 print('ARQUIVO DE SALDO DE {} NÃO EXISTE!'.format(login_para_checar_saldo))
+
+
+        elif opcao == 6:
+            lt()
+            with open('historico_depositos.txt', 'r') as f:
+                linhas = f.readlines()
+            if linhas:
+                ultima_linha = linhas[-1].strip()  # Remove espaços em branco extras
+                print(f'{ultima_linha}\n\n')
+            else:
+                print('O arquivo está vazio.\n\n')
+
+        
+        elif opcao == 7:
+            lt()
+            with open('historico_saques.txt', 'r') as f:
+                linhas = f.readlines()
+            if linhas:
+                ultima_linha = linhas[-1].strip()  # Remove espaços em branco extras
+                print(f'{ultima_linha}\n\n')
+            else:
+                print('O arquivo está vazio.\n\n')
 
         else:
             lt()
