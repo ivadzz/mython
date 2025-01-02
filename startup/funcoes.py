@@ -1,4 +1,12 @@
 from cryptography.fernet import Fernet
+import os
+import time as t
+import getpass
+import random as r
+import sys
+import msvcrt
+from colorama import Fore, Back, Style, init
+import datetime
 
 def cripto():
     # Gera uma chave e salva em um arquivo
@@ -103,3 +111,23 @@ def uncriptosenha():
 
     decrypt_filesenha('1senhamestre.txt')
 
+########################################################################################
+def custom_getpass(prompt="Senha:", char_mask='•'):
+    print(prompt, end='', flush=True)
+    senha = ""
+    while True:
+        char = msvcrt.getch()
+        if char == b'\r':  # Enter key pressed
+            print('')
+            break
+        elif char == b'\x08':  # Backspace pressed
+            if len(senha) > 0:
+                senha = senha[:-1]
+                sys.stdout.write('\b \b')
+        else:
+            senha += char.decode('utf-8')
+            sys.stdout.write(char_mask)
+        sys.stdout.flush()
+    return senha
+
+########################################################################################

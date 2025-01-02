@@ -1,38 +1,17 @@
+########################################################################################
 import os
 import time as t
 import getpass
 import random as r
-from cripto import cripto
-from cripto import uncripto
-from cripto import criptosenha
-from cripto import uncriptosenha
+from funcoes import cripto, uncripto, criptosenha, uncriptosenha, custom_getpass
 import sys
 import msvcrt
 from colorama import Fore, Back, Style, init
 import datetime
+########################################################################################
 
 
-
-
-def custom_getpass(prompt="Senha:", char_mask='•'):
-    print(prompt, end='', flush=True)
-    senha = ""
-    while True:
-        char = msvcrt.getch()
-        if char == b'\r':  # Enter key pressed
-            print('')
-            break
-        elif char == b'\x08':  # Backspace pressed
-            if len(senha) > 0:
-                senha = senha[:-1]
-                sys.stdout.write('\b \b')
-        else:
-            senha += char.decode('utf-8')
-            sys.stdout.write(char_mask)
-        sys.stdout.flush()
-    return senha
-
-
+########################################################################################
 def apresentar_jogos():
     print("=" * 50)
     print("|" + " " * 16 + "SELEÇÃO DE JOGOS" + " " * 16 + "|")
@@ -57,8 +36,6 @@ def exibir_interface_caca_niquel():
     print("="*40)
     
 
-
-print()
 def exibir_interface_roleta():
     print("="*40)
     print(" " * 10 + " ROLETA ")
@@ -98,6 +75,7 @@ def lt():
     os.system('cls')
 
 
+########################################################################################
 try:
     uncripto()
 

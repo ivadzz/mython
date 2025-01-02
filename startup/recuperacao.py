@@ -1,27 +1,12 @@
-from cripto import cripto
-from cripto import uncripto
+from funcoes import cripto
+from funcoes import uncripto
+from funcoes import custom_getpass
 import getpass
 import os
 import sys
 import msvcrt
 
-def custom_getpass(prompt="Senha:", char_mask='•'):
-    print(prompt, end='', flush=True)
-    senha = ""
-    while True:
-        char = msvcrt.getch()
-        if char == b'\r':  # Enter key pressed
-            print('')
-            break
-        elif char == b'\x08':  # Backspace pressed
-            if len(senha) > 0:
-                senha = senha[:-1]
-                sys.stdout.write('\b \b')
-        else:
-            senha += char.decode('utf-8')
-            sys.stdout.write(char_mask)
-        sys.stdout.flush()
-    return senha
+
 
 def lt():
     os.system('cls')
